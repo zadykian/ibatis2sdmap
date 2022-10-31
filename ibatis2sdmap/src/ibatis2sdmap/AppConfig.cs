@@ -1,28 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ibatis2sdmap
+namespace ibatis2sdmap;
+
+internal static class AppConfig
 {
-    internal static class AppConfig
-    {
-        public static IConfigurationRoot Configuration { get; set; }
+	public static IConfigurationRoot Configuration { get; set; }
 
-        static AppConfig()
-        {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appconfig.json");
-            Configuration = builder.Build();
-        }
+	static AppConfig()
+	{
+		var builder = new ConfigurationBuilder()
+			.SetBasePath(Directory.GetCurrentDirectory())
+			.AddJsonFile("appconfig.json");
+		Configuration = builder.Build();
+	}
 
-        public static string IBatisXmlDirectory => Environment.GetCommandLineArgs()[1];
+	public static string IBatisXmlDirectory => Environment.GetCommandLineArgs()[1];
 
-        public static string DestinationDirectory => Configuration[nameof(DestinationDirectory)];
+	public static string DestinationDirectory => Configuration[nameof(DestinationDirectory)];
 
-        public const string NsPrefix = "http://ibatis.apache.org/mapping";
-    }
+	public const string NsPrefix = "http://ibatis.apache.org/mapping";
 }
