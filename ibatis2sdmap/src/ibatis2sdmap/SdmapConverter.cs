@@ -11,7 +11,8 @@ namespace ibatis2sdmap
         public static string IBatisToSdmap(string ibatisCode)
         {
             var namespaces = XDocument.Parse(ibatisCode)
-                .Descendants($"{{{AppConfig.NsPrefix}}}sqlMap")
+                .Descendants()
+                .Where(x => x.Name.LocalName == "sqlMap")
                 .SelectMany(SqlItem.Create)
                 .GroupBy(x => x.Namespace)
                 .Select(ns =>

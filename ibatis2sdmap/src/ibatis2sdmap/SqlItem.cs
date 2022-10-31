@@ -29,7 +29,7 @@ namespace ibatis2sdmap
 
         public static IEnumerable<SqlItem> Create(XElement sqlMapNode)
         {
-            var ns = sqlMapNode.Attribute("namespace").Value;
+            var ns = sqlMapNode.Attribute("namespace")?.Value;
             return sqlMapNode
                 .Descendants($"{{{AppConfig.NsPrefix}}}statements") // statements
                 .Nodes().OfType<XElement>() // select, sql, ...
