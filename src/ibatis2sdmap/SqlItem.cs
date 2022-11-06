@@ -1,4 +1,5 @@
-﻿using ibatis2sdmap.SqlSegments;
+﻿using System;
+using ibatis2sdmap.SqlSegments;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -16,7 +17,7 @@ internal class SqlItem
 	public string Emit()
 	{
 		return
-			$"sql {Id}\r\n" +
+			$"sql {Id}{Environment.NewLine}" +
 			"{" +
 			$"{string.Concat(Segments.Select(x => x.Emit()))}\r\n" +
 			"}";
@@ -27,7 +28,8 @@ internal class SqlItem
 		var ns = sqlMapNode.Attribute("namespace")?.Value;
 		return sqlMapNode
 			.Descendants($"{{{AppConfig.NsPrefix}}}statements") // statements
-			.Nodes().OfType<XElement>() // select, sql, ...
+			.Nodes()
+			.OfType<XElement>() // select, sql, ...
 			.Select(x => new SqlItem
 			{
 				Id = x.Attribute("id").Value,
